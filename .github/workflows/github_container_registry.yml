@@ -1,0 +1,39 @@
+name: Publish to GitHub Container Registry
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  latest-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build latest CLI version and publish
+        uses: elgohr/Publish-Docker-Github-Action@2.22
+        with:
+          name: mileschou/phpunit
+          tags: "latest,cli,8.1"
+          username: mileschou
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          dockerfile: 8.1/Dockerfile
+
+  cli:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["8.0", "7.4", "7.3", "7.2", "7.1", "7.0", "5.6", "5.5"]
+    steps:
+      - uses: actions/checkout@master
+      - name: Build PHP ${{ matrix.version }} CLI and publish
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: mileschou/phpunit
+          tags: ${{ matrix.version }},${{ matrix.version }}-cli
+          username: mileschou
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          dockerfile: ${{ matrix.version }}/Dockerfile
