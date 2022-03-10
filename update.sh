@@ -13,14 +13,14 @@ ghcr.io/mileschou/xdebug:8.1-apache
 build_dockerfile() {
     echo "Build ./${1}/Dockerfile ..."
     generated_warning > ./Dockerfile
-    cat ./Dockerfile.template | sed -e 's!%%PHP_VERSION%%!'"ghcr.io/mileschou/xdebug:${LATEST_VERSION}"'!' >> ./Dockerfile
+    cat ./Dockerfile.template | sed -e 's!%%PHP_VERSION%%!'"ghcr.io/mileschou/xdebug:${LATEST_VERSION}-alpine"'!' >> ./Dockerfile
 
     for version in ${VERSIONS}; do
         echo "Build ./${version}/Dockerfile ..."
         mkdir -p ${version}
 
         generated_warning > ./${version}/Dockerfile
-        cat ./Dockerfile.template | sed -e 's!%%PHP_VERSION%%!'"ghcr.io/mileschou/xdebug:${version}"'!' >> ./${version}/Dockerfile
+        cat ./Dockerfile.template | sed -e 's!%%PHP_VERSION%%!'"ghcr.io/mileschou/xdebug:${version}-alpine"'!' >> ./${version}/Dockerfile
 
         cp ./entrypoint.sh ${version}/entrypoint.sh
     done

@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM ghcr.io/mileschou/xdebug:8.0
+FROM ghcr.io/mileschou/xdebug:8.0-alpine
 
 RUN set -xe && \
         apk add --no-cache tini
